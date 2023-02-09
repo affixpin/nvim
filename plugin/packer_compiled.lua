@@ -41,6 +41,9 @@ local function save_profiles(threshold)
       results[i] = elem[1] .. ' took ' .. elem[2] .. 'ms'
     end
   end
+  if threshold then
+    table.insert(results, '(Only showing plugins that took longer than ' .. threshold .. ' ms ' .. 'to load)')
+  end
 
   _G._packer.profile_output = results
 end
@@ -81,6 +84,11 @@ _G.packer_plugins = {
     path = "/Users/u/.local/share/nvim/site/pack/packer/start/gruvbox",
     url = "https://github.com/morhetz/gruvbox"
   },
+  ["lspkind.nvim"] = {
+    loaded = true,
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/lspkind.nvim",
+    url = "https://github.com/onsails/lspkind.nvim"
+  },
   ["nvim-lightbulb"] = {
     loaded = true,
     path = "/Users/u/.local/share/nvim/site/pack/packer/start/nvim-lightbulb",
@@ -95,6 +103,26 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/u/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
+  },
+  ["vim-graphql"] = {
+    loaded = true,
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-graphql",
+    url = "https://github.com/jparise/vim-graphql"
+  },
+  ["vim-prettier"] = {
+    loaded = true,
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-prettier",
+    url = "https://github.com/prettier/vim-prettier"
+  },
+  ["vim-solidity"] = {
+    loaded = true,
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-solidity",
+    url = "https://github.com/tomlion/vim-solidity"
+  },
+  ["zsh-syntax-highlighting"] = {
+    loaded = true,
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/zsh-syntax-highlighting",
+    url = "https://github.com/zsh-users/zsh-syntax-highlighting"
   }
 }
 
