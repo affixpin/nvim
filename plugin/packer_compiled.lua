@@ -74,40 +74,65 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
-  ["FixCursorHold.nvim"] = {
+  ["iceberg.vim"] = {
     loaded = true,
-    path = "/Users/u/.local/share/nvim/site/pack/packer/start/FixCursorHold.nvim",
-    url = "https://github.com/antoinemadec/FixCursorHold.nvim"
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/iceberg.vim",
+    url = "https://github.com/cocopon/iceberg.vim"
   },
-  gruvbox = {
+  ["lualine.nvim"] = {
     loaded = true,
-    path = "/Users/u/.local/share/nvim/site/pack/packer/start/gruvbox",
-    url = "https://github.com/morhetz/gruvbox"
-  },
-  ["lspkind.nvim"] = {
-    loaded = true,
-    path = "/Users/u/.local/share/nvim/site/pack/packer/start/lspkind.nvim",
-    url = "https://github.com/onsails/lspkind.nvim"
-  },
-  ["nvim-lightbulb"] = {
-    loaded = true,
-    path = "/Users/u/.local/share/nvim/site/pack/packer/start/nvim-lightbulb",
-    url = "https://github.com/kosayoda/nvim-lightbulb"
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/lualine.nvim",
+    url = "https://github.com/nvim-lualine/lualine.nvim"
   },
   ["nvim-lspconfig"] = {
     loaded = true,
     path = "/Users/u/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
   },
+  ["nvim-tree.lua"] = {
+    loaded = true,
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
+    url = "https://github.com/nvim-tree/nvim-tree.lua"
+  },
+  ["nvim-web-devicons"] = {
+    loaded = true,
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
+    url = "https://github.com/nvim-tree/nvim-web-devicons"
+  },
   ["packer.nvim"] = {
     loaded = true,
     path = "/Users/u/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
   },
+  ["plenary.nvim"] = {
+    loaded = true,
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/plenary.nvim",
+    url = "https://github.com/nvim-lua/plenary.nvim"
+  },
+  ["telescope.nvim"] = {
+    loaded = true,
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/telescope.nvim",
+    url = "https://github.com/nvim-telescope/telescope.nvim"
+  },
+  ["vim-devicons"] = {
+    loaded = true,
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-devicons",
+    url = "https://github.com/ryanoasis/vim-devicons"
+  },
+  ["vim-fugitive"] = {
+    loaded = true,
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-fugitive",
+    url = "https://github.com/tpope/vim-fugitive"
+  },
   ["vim-graphql"] = {
     loaded = true,
     path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-graphql",
     url = "https://github.com/jparise/vim-graphql"
+  },
+  ["vim-json"] = {
+    loaded = true,
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-json",
+    url = "https://github.com/leshill/vim-json"
   },
   ["vim-prettier"] = {
     loaded = true,
