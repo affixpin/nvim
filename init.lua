@@ -65,13 +65,12 @@ vim.opt.path:append { "**" }
 --[[
 THEME
 --]]
-
 vim.cmd('colorscheme moonfly')
 
 --[[
 LINES
 --]]
-require("bufferline").setup{}
+require("bufferline").setup {}
 
 --[[
 Telescope
@@ -83,8 +82,25 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
 --[[
+Fugitive
+--]]
+local function diffSplitInNewTab()
+	vim.cmd('tabnew')
+	vim.cmd('Gdiffsplit')
+end
+
+vim.keymap.set('n', '<leader>gs', diffSplitInNewTab, {})
+
+-- quickfix next item, close current tab
+vim.keymap.set('n', '<leader>gt', function()
+	vim.cmd('tabc')
+	diffSplitInNewTab()
+end, {})
+
+--[[
 LSP
 --]]
+vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, {})
 
 local lsp = require('lsp-zero').preset({
 	name = 'minimal',
@@ -123,4 +139,3 @@ require 'nvim-treesitter.configs'.setup {
 		additional_vim_regex_highlighting = false,
 	},
 }
-
