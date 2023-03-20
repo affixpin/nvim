@@ -84,35 +84,15 @@ _G.packer_plugins = {
     path = "/Users/u/.local/share/nvim/site/pack/packer/start/copilot.vim",
     url = "https://github.com/github/copilot.vim"
   },
-  ["lualine.nvim"] = {
+  moonfly = {
     loaded = true,
-    path = "/Users/u/.local/share/nvim/site/pack/packer/start/lualine.nvim",
-    url = "https://github.com/nvim-lualine/lualine.nvim"
-  },
-  ["mini.nvim"] = {
-    loaded = true,
-    path = "/Users/u/.local/share/nvim/site/pack/packer/start/mini.nvim",
-    url = "https://github.com/echasnovski/mini.nvim"
-  },
-  ["nvim-lspconfig"] = {
-    loaded = true,
-    path = "/Users/u/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
-    url = "https://github.com/neovim/nvim-lspconfig"
-  },
-  ["nvim-tree.lua"] = {
-    loaded = true,
-    path = "/Users/u/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
-    url = "https://github.com/nvim-tree/nvim-tree.lua"
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/moonfly",
+    url = "https://github.com/bluz71/vim-moonfly-colors"
   },
   ["nvim-treesitter"] = {
     loaded = true,
     path = "/Users/u/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
-  },
-  ["nvim-web-devicons"] = {
-    loaded = true,
-    path = "/Users/u/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
-    url = "https://github.com/nvim-tree/nvim-web-devicons"
   },
   ["packer.nvim"] = {
     loaded = true,
@@ -129,40 +109,40 @@ _G.packer_plugins = {
     path = "/Users/u/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
-  ["tokyonight.nvim"] = {
-    loaded = true,
-    path = "/Users/u/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
-    url = "https://github.com/folke/tokyonight.nvim"
-  },
   ["vim-fugitive"] = {
     loaded = true,
     path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-fugitive",
     url = "https://github.com/tpope/vim-fugitive"
-  },
-  ["vim-graphql"] = {
-    loaded = true,
-    path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-graphql",
-    url = "https://github.com/jparise/vim-graphql"
-  },
-  ["vim-json"] = {
-    loaded = true,
-    path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-json",
-    url = "https://github.com/leshill/vim-json"
   },
   ["vim-prettier"] = {
     loaded = true,
     path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-prettier",
     url = "https://github.com/prettier/vim-prettier"
   },
-  ["vim-solidity"] = {
+  ["vim-rhubarb"] = {
     loaded = true,
-    path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-solidity",
-    url = "https://github.com/tomlion/vim-solidity"
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-rhubarb",
+    url = "https://github.com/tpope/vim-rhubarb"
   },
-  ["zsh-syntax-highlighting"] = {
+  ["vim-sensible"] = {
     loaded = true,
-    path = "/Users/u/.local/share/nvim/site/pack/packer/start/zsh-syntax-highlighting",
-    url = "https://github.com/zsh-users/zsh-syntax-highlighting"
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-sensible",
+    url = "https://github.com/tpope/vim-sensible"
+  },
+  ["vim-sleuth"] = {
+    loaded = true,
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-sleuth",
+    url = "https://github.com/tpope/vim-sleuth"
+  },
+  ["vim-unimpaired"] = {
+    loaded = true,
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-unimpaired",
+    url = "https://github.com/tpope/vim-unimpaired"
+  },
+  ["vim-vinegar"] = {
+    loaded = true,
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-vinegar",
+    url = "https://github.com/tpope/vim-vinegar"
   }
 }
 

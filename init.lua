@@ -6,7 +6,9 @@ require('packer').startup(function(use)
 
 	use "github/copilot.vim"
 
+	use 'tpope/vim-sleuth'
 	use 'tpope/vim-unimpaired'
+	use 'tpope/vim-abolish'
 	use 'tpope/vim-vinegar'
 	use 'tpope/vim-sensible'
 	use 'tpope/vim-fugitive'
@@ -48,17 +50,28 @@ require('packer').startup(function(use)
 	}
 
 	use 'prettier/vim-prettier'
+
+	use "folke/which-key.nvim"
 end)
+
+--[[
+WhichKey
+-- ]]
+local wk = require("which-key")
+wk.register({}, {})
 
 --[[
 Basics
 --]]
+vim.o.swapfile = false
 vim.g.mapleader = " "
 vim.o.relativenumber = true
 vim.o.number = true
 vim.o.termguicolors = true
 
-vim.opt.wildignore:append { "*.d.ts", "**/node_modules/**", "**/build/**", "**/dist/**", "**/.git/**" }
+vim.keymap.set('n', '<leader>.', "@:", {})
+
+vim.opt.wildignore:append { "*.d.ts", "**/node_modules/**", "**/lib/**", "**/build/**", "**/dist/**", "**/.git/**" }
 -- Enable :find search across project
 vim.opt.path:append { "**" }
 
@@ -80,22 +93,6 @@ vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-
---[[
-Fugitive
---]]
-local function diffSplitInNewTab()
-	vim.cmd('tabnew')
-	vim.cmd('Gdiffsplit')
-end
-
-vim.keymap.set('n', '<leader>gs', diffSplitInNewTab, {})
-
--- quickfix next item, close current tab
-vim.keymap.set('n', '<leader>gt', function()
-	vim.cmd('tabc')
-	diffSplitInNewTab()
-end, {})
 
 --[[
 LSP
