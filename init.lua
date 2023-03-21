@@ -27,7 +27,7 @@ require('packer').startup(function(use)
 	}
 
 	use {
-		'nvim-telescope/telescope.nvim', tag = '0.1.1',
+		'nvim-telescope/telescope.nvim',
 		requires = { { 'nvim-lua/plenary.nvim' } }
 	}
 
@@ -52,7 +52,24 @@ require('packer').startup(function(use)
 	use 'prettier/vim-prettier'
 
 	use "folke/which-key.nvim"
+
+	use({
+		"jackMort/ChatGPT.nvim",
+		commit = '8820b99c',
+		config = function()
+			require("chatgpt").setup({
+				-- optional configuration
+			})
+		end,
+		requires = {
+			"MunifTanjim/nui.nvim",
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim"
+		}
+	})
 end)
+
+
 
 --[[
 WhichKey
@@ -97,28 +114,18 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 --[[
 LSP
 --]]
-vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, {})
-
 local lsp = require('lsp-zero').preset({
 	name = 'minimal',
-	set_lsp_keymaps = true,
+	set_lsp_keymaps = {preserve_mappings = false},
 	manage_nvim_cmp = true,
 	suggest_lsp_servers = true,
 })
 
-lsp.setup_nvim_cmp({
-	mapping = lsp.defaults.cmp_mappings({
-		['<Enter>'] = vim.NIL,
-		['<Ctrl-u>'] = vim.NIL,
-		['<Ctrl-f>'] = vim.NIL,
-		['<Ctrl-d>'] = vim.NIL,
-		['<Ctrl-b>'] = vim.NIL,
-		['<Tab>'] = vim.NIL,
-		['<S-Tab>'] = vim.NIL,
-	})
-})
+vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, {})
+vim.opt.signcolumn = 'yes'
 
 lsp.nvim_workspace()
+
 lsp.setup()
 
 --[[
