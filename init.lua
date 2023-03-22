@@ -69,13 +69,16 @@ require('packer').startup(function(use)
 	})
 end)
 
-
-
 --[[
 WhichKey
 -- ]]
 local wk = require("which-key")
 wk.register({}, {})
+
+--[[
+Copilot
+-- ]]
+vim.g.copilot_assume_mapped = true
 
 --[[
 Basics
@@ -119,6 +122,13 @@ local lsp = require('lsp-zero').preset({
 	set_lsp_keymaps = {preserve_mappings = false},
 	manage_nvim_cmp = true,
 	suggest_lsp_servers = true,
+})
+
+lsp.setup_nvim_cmp({
+  mapping = lsp.defaults.cmp_mappings({
+    ['<Tab>'] = vim.NIL,
+    ['<S-Tab>'] = vim.NIL,
+  })
 })
 
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, {})
