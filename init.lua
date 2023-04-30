@@ -14,7 +14,8 @@ require('packer').startup(function(use)
 	use 'tpope/vim-fugitive'
 	use 'tpope/vim-rhubarb'
 
-	use 'akinsho/bufferline.nvim'
+	use { 'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons' }
+
 
 	use({
 		'bluz71/vim-moonfly-colors',
@@ -52,21 +53,6 @@ require('packer').startup(function(use)
 	use 'prettier/vim-prettier'
 
 	use "folke/which-key.nvim"
-
-	use({
-		"jackMort/ChatGPT.nvim",
-		commit = '8820b99c',
-		config = function()
-			require("chatgpt").setup({
-				-- optional configuration
-			})
-		end,
-		requires = {
-			"MunifTanjim/nui.nvim",
-			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope.nvim"
-		}
-	})
 end)
 
 --[[
@@ -91,19 +77,19 @@ vim.o.termguicolors = true
 
 vim.keymap.set('n', '<leader>.', "@:", {})
 
-vim.opt.wildignore:append { "*.d.ts", "**/node_modules/**", "**/lib/**", "**/build/**", "**/dist/**", "**/.git/**" }
 -- Enable :find search across project
 vim.opt.path:append { "**" }
+
+--[[
+LINES
+--]]
+require("bufferline").setup {}
 
 --[[
 THEME
 --]]
 vim.cmd('colorscheme moonfly')
 
---[[
-LINES
---]]
-require("bufferline").setup {}
 
 --[[
 Telescope
@@ -119,16 +105,16 @@ LSP
 --]]
 local lsp = require('lsp-zero').preset({
 	name = 'minimal',
-	set_lsp_keymaps = {preserve_mappings = false},
+	set_lsp_keymaps = { preserve_mappings = false },
 	manage_nvim_cmp = true,
 	suggest_lsp_servers = true,
 })
 
 lsp.setup_nvim_cmp({
-  mapping = lsp.defaults.cmp_mappings({
-    ['<Tab>'] = vim.NIL,
-    ['<S-Tab>'] = vim.NIL,
-  })
+	mapping = lsp.defaults.cmp_mappings({
+		['<Tab>'] = vim.NIL,
+		['<S-Tab>'] = vim.NIL,
+	})
 })
 
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, {})
@@ -145,7 +131,6 @@ require 'nvim-treesitter.configs'.setup {
 	auto_install = true,
 	highlight = {
 		enable = true,
-
 		-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
 		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
 		-- Using this option may slow down your editor, and you may see some duplicate highlights.
