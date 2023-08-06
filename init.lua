@@ -5,7 +5,6 @@ require('packer').startup(function(use)
 	use 'wbthomason/packer.nvim'
 
 	use "github/copilot.vim"
-
 	use 'tpope/vim-sleuth'
 	use 'tpope/vim-unimpaired'
 	use 'tpope/vim-abolish'
@@ -50,8 +49,8 @@ require('packer').startup(function(use)
 	}
 
 	use 'prettier/vim-prettier'
-
 	use "folke/which-key.nvim"
+	use "stevearc/oil.nvim"
 end)
 
 --[[
@@ -59,6 +58,12 @@ WhichKey
 -- ]]
 local wk = require("which-key")
 wk.register({}, {})
+
+--[[
+Oil
+-- ]]
+require("oil").setup()
+vim.keymap.set("n", "-", require("oil").open, { desc = "Open parent directory" })
 
 --[[
 Copilot
