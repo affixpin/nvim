@@ -8,7 +8,6 @@ require('packer').startup(function(use)
 	use 'tpope/vim-sleuth'
 	use 'tpope/vim-unimpaired'
 	use 'tpope/vim-abolish'
-	use 'tpope/vim-vinegar'
 	use 'tpope/vim-sensible'
 	use 'tpope/vim-fugitive'
 
