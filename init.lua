@@ -12,7 +12,6 @@ require('packer').startup(function(use)
 	use 'tpope/vim-vinegar'
 	use 'tpope/vim-sensible'
 	use 'tpope/vim-fugitive'
-	use 'tpope/vim-rhubarb'
 
 	use { 'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons' }
 
@@ -99,6 +98,7 @@ vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+vim.keymap.set('n', '<leader>fc', builtin.command_history, {})
 
 --[[
 LSP
