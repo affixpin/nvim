@@ -61,7 +61,12 @@ wk.register({}, {})
 --[[
 Oil
 -- ]]
-require("oil").setup()
+require("oil").setup({
+	view_options = {
+		-- Show files and directories that start with "."
+		show_hidden = true,
+	}
+})
 vim.keymap.set("n", "-", require("oil").open, { desc = "Open parent directory" })
 
 --[[
@@ -77,6 +82,7 @@ vim.g.mapleader = " "
 vim.o.relativenumber = true
 vim.o.number = true
 vim.o.termguicolors = true
+vim.o.tabstop = 2
 
 vim.keymap.set('n', '<leader>.', "@:", {})
 
@@ -103,6 +109,8 @@ vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>fc', builtin.command_history, {})
+vim.keymap.set('n', '<leader>fr', builtin.resume, {})
+vim.keymap.set('n', '<leader>fd', builtin.lsp_definitions, {})
 
 --[[
 LSP
@@ -122,6 +130,7 @@ lsp.setup_nvim_cmp({
 })
 
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, {})
+vim.keymap.set('n', '<leader>lr', ":LspRestart<cr>", {})
 vim.opt.signcolumn = 'yes'
 
 lsp.nvim_workspace()
