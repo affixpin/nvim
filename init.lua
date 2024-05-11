@@ -25,11 +25,6 @@ require('packer').startup(function(use)
 	}
 
 	use {
-		'nvim-telescope/telescope.nvim',
-		requires = { { 'nvim-lua/plenary.nvim' } }
-	}
-
-	use {
 		'VonHeikemen/lsp-zero.nvim',
 		branch = 'v1.x',
 		requires = {
@@ -50,6 +45,11 @@ require('packer').startup(function(use)
 	use 'prettier/vim-prettier'
 	use "folke/which-key.nvim"
 	use "stevearc/oil.nvim"
+
+	use { "ibhagwan/fzf-lua",
+		-- optional for icon support
+		requires = { "nvim-tree/nvim-web-devicons" }
+	}
 end)
 
 --[[
@@ -101,16 +101,13 @@ vim.cmd('colorscheme moonfly')
 
 
 --[[
-Telescope
+FZF
 --]]
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-vim.keymap.set('n', '<leader>fc', builtin.command_history, {})
-vim.keymap.set('n', '<leader>fr', builtin.resume, {})
-vim.keymap.set('n', '<leader>fd', builtin.lsp_definitions, {})
+
+local fzf = require('fzf-lua')
+vim.keymap.set("n", "<leader>ff", fzf.files, {})
+vim.keymap.set('n', '<leader>fr', fzf.resume, {})
+vim.keymap.set('n', '<leader>fg', fzf.live_grep, {})
 
 --[[
 LSP
@@ -132,6 +129,7 @@ lsp.setup_nvim_cmp({
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, {})
 vim.keymap.set('n', '<leader>lr', ":LspRestart<cr>", {})
 vim.opt.signcolumn = 'yes'
+vim.g.lsp_zero_log_level = "verbose"
 
 lsp.nvim_workspace()
 

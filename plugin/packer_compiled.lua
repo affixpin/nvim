@@ -94,6 +94,11 @@ _G.packer_plugins = {
     path = "/Users/u/.local/share/nvim/site/pack/packer/start/copilot.vim",
     url = "https://github.com/github/copilot.vim"
   },
+  ["fzf-lua"] = {
+    loaded = true,
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/fzf-lua",
+    url = "https://github.com/ibhagwan/fzf-lua"
+  },
   ["lsp-zero.nvim"] = {
     loaded = true,
     path = "/Users/u/.local/share/nvim/site/pack/packer/start/lsp-zero.nvim",
@@ -134,20 +139,15 @@ _G.packer_plugins = {
     path = "/Users/u/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/nvim-tree/nvim-web-devicons"
   },
+  ["oil.nvim"] = {
+    loaded = true,
+    path = "/Users/u/.local/share/nvim/site/pack/packer/start/oil.nvim",
+    url = "https://github.com/stevearc/oil.nvim"
+  },
   ["packer.nvim"] = {
     loaded = true,
     path = "/Users/u/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
-  },
-  ["plenary.nvim"] = {
-    loaded = true,
-    path = "/Users/u/.local/share/nvim/site/pack/packer/start/plenary.nvim",
-    url = "https://github.com/nvim-lua/plenary.nvim"
-  },
-  ["telescope.nvim"] = {
-    loaded = true,
-    path = "/Users/u/.local/share/nvim/site/pack/packer/start/telescope.nvim",
-    url = "https://github.com/nvim-telescope/telescope.nvim"
   },
   ["vim-abolish"] = {
     loaded = true,
@@ -164,11 +164,6 @@ _G.packer_plugins = {
     path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-prettier",
     url = "https://github.com/prettier/vim-prettier"
   },
-  ["vim-rhubarb"] = {
-    loaded = true,
-    path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-rhubarb",
-    url = "https://github.com/tpope/vim-rhubarb"
-  },
   ["vim-sensible"] = {
     loaded = true,
     path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-sensible",
@@ -183,11 +178,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-unimpaired",
     url = "https://github.com/tpope/vim-unimpaired"
-  },
-  ["vim-vinegar"] = {
-    loaded = true,
-    path = "/Users/u/.local/share/nvim/site/pack/packer/start/vim-vinegar",
-    url = "https://github.com/tpope/vim-vinegar"
   },
   ["which-key.nvim"] = {
     loaded = true,
