@@ -43,7 +43,6 @@ require('packer').startup(function(use)
 	}
 
 	use 'prettier/vim-prettier'
-	use "folke/which-key.nvim"
 	use "stevearc/oil.nvim"
 
 	use { "ibhagwan/fzf-lua",
@@ -51,12 +50,6 @@ require('packer').startup(function(use)
 		requires = { "nvim-tree/nvim-web-devicons" }
 	}
 end)
-
---[[
-WhichKey
--- ]]
-local wk = require("which-key")
-wk.register({}, {})
 
 --[[
 Oil
