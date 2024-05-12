@@ -5,6 +5,7 @@ require('packer').startup(function(use)
 	use 'wbthomason/packer.nvim'
 
 	use "github/copilot.vim"
+
 	use 'tpope/vim-sleuth'
 	use 'tpope/vim-unimpaired'
 	use 'tpope/vim-abolish'
