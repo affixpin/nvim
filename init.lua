@@ -2,6 +2,7 @@
 Basics - Set these BEFORE loading plugins
 --]]
 vim.o.swapfile = false
+vim.o.autoread = true
 vim.g.mapleader = " "
 vim.o.relativenumber = true
 vim.o.number = true
@@ -31,28 +32,11 @@ Plugin Setup
 --]]
 require("lazy").setup({
 	-- Core
-	"github/copilot.vim",
 	"tpope/vim-sleuth",
 	"tpope/vim-unimpaired",
 	"tpope/vim-abolish",
 	"tpope/vim-sensible",
 	"tpope/vim-fugitive",
-	"nvim-lua/plenary.nvim",
-
-	-- Lualine (replaces bufferline)
-	{
-		"nvim-lualine/lualine.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		config = function()
-			require("lualine").setup({
-				options = {
-					theme = "auto",
-					component_separators = "|",
-					section_separators = "",
-				},
-			})
-		end,
-	},
 
 	-- Colorscheme
 	{ "bluz71/vim-moonfly-colors", name = "moonfly" },
@@ -68,42 +52,14 @@ require("lazy").setup({
 
 			-- configure treesitter
 			treesitter.setup({ -- enable syntax highlighting
+				ensure_installed = {},
+				sync_install = true,
+				auto_install = true,
+				ignore_install = {},
+				modules = {},
+
 				highlight = {
 					enable = true,
-				},
-				-- enable indentation
-				indent = { enable = true },
-				-- ensure these language parsers are installed
-				ensure_installed = {
-					"json",
-					"javascript",
-					"typescript",
-					"tsx",
-					"yaml",
-					"html",
-					"css",
-					"prisma",
-					"markdown",
-					"markdown_inline",
-					"svelte",
-					"graphql",
-					"bash",
-					"lua",
-					"vim",
-					"dockerfile",
-					"gitignore",
-					"query",
-					"vimdoc",
-					"c",
-				},
-				incremental_selection = {
-					enable = true,
-					keymaps = {
-						init_selection = "<C-space>",
-						node_incremental = "<C-space>",
-						scope_incremental = false,
-						node_decremental = "<bs>",
-					},
 				},
 			})
 
@@ -111,24 +67,57 @@ require("lazy").setup({
 			vim.treesitter.language.register("bash", "zsh")
 		end,
 	},
-	{
-		{
-			{
-				"williamboman/mason-lspconfig.nvim",
-				opts = {},
-				dependencies = {
-					{
-						"williamboman/mason.nvim",
-						opts = {},
-					},
-					"neovim/nvim-lspconfig",
-				},
-			},
-		},
-	},
 
 	-- Prettier
 	"prettier/vim-prettier",
+
+	{
+		"stevearc/conform.nvim",
+		config = function()
+			require("conform").setup({
+				formatters_by_ft = {
+					-- Go
+					go = { "goimports", "gofmt" },
+
+					-- Lua
+					lua = { "stylua" },
+
+					-- Web technologies
+					javascript = { "prettier" },
+					typescript = { "prettier" },
+					javascriptreact = { "prettier" },
+					typescriptreact = { "prettier" },
+					json = { "prettier" },
+					jsonc = { "prettier" },
+					yaml = { "prettier" },
+					markdown = { "prettier" },
+					html = { "prettier" },
+					css = { "prettier" },
+					scss = { "prettier" },
+
+					-- Shell
+					sh = { "shfmt" },
+					bash = { "shfmt" },
+				},
+				format_on_save = {
+					timeout_ms = 500,
+					lsp_format = "fallback",
+				},
+			})
+
+			vim.api.nvim_create_user_command("F", function(args)
+				local range = nil
+				if args.count ~= -1 then
+					local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+					range = {
+						start = { args.line1, 0 },
+						["end"] = { args.line2, end_line:len() },
+					}
+				end
+				require("conform").format({ async = true, lsp_format = "fallback", range = range })
+			end, { range = true })
+		end,
+	},
 
 	-- Oil
 	{
@@ -155,82 +144,92 @@ require("lazy").setup({
 		end,
 	},
 	{
-		"hrsh7th/nvim-cmp",
-		event = "InsertEnter",
-		dependencies = {
-			"hrsh7th/cmp-buffer", -- source for text in buffer
-			"hrsh7th/cmp-path", -- source for file system paths
-			{
-				"L3MON4D3/LuaSnip",
-				-- follow latest release.
-				version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-				-- install jsregexp (optional!).
-				build = "make install_jsregexp",
+		"saghen/blink.cmp",
+		dependencies = { "rafamadriz/friendly-snippets" },
+		version = "1.*",
+
+		opts = {
+			signature = { enabled = true },
+			keymap = { preset = "default" },
+
+			appearance = {
+				-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+				-- Adjusts spacing to ensure icons are aligned
+				nerd_font_variant = "mono",
 			},
-			"saadparwaiz1/cmp_luasnip", -- for autocompletion
-			"rafamadriz/friendly-snippets", -- useful snippets
-			"onsails/lspkind.nvim", -- vs-code like pictograms
+
+			cmdline = {
+				enabled = false,
+				completion = { menu = { auto_show = true } },
+				keymap = {
+					["<CR>"] = { "accept_and_enter", "fallback" },
+				},
+			},
+
+			-- (Default) Only show the documentation popup when manually triggered
+			completion = { documentation = { auto_show = true } },
+
+			-- Default list of enabled providers defined so that you can extend it
+			-- elsewhere in your config, without redefining it, due to `opts_extend`
+			sources = {
+				default = { "lsp", "path", "snippets", "buffer" },
+			},
+
+			fuzzy = { implementation = "prefer_rust_with_warning" },
 		},
-		config = function()
-			local cmp = require("cmp")
-
-			local luasnip = require("luasnip")
-
-			local lspkind = require("lspkind")
-
-			-- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
-			require("luasnip.loaders.from_vscode").lazy_load()
-
-			cmp.setup({
-				snippet = { -- configure how nvim-cmp interacts with snippet engine
-					expand = function(args)
-						luasnip.lsp_expand(args.body)
-					end,
-				},
-				mapping = cmp.mapping.preset.insert({
-					["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
-					["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
-					["<C-b>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
-					["<C-e>"] = cmp.mapping.abort(), -- close completion window
-					["<CR>"] = cmp.mapping.confirm({ select = false }),
-				}),
-				-- sources for autocompletion
-				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
-					{ name = "luasnip" }, -- snippets
-					{ name = "buffer" }, -- text within current buffer
-					{ name = "path" }, -- file system paths
-				}),
-
-				-- configure lspkind for vs-code like pictograms in completion menu
-				formatting = {
-					format = lspkind.cmp_format({
-						maxwidth = 50,
-						ellipsis_char = "...",
-					}),
-				},
-			})
-		end,
+		opts_extend = { "sources.default" },
 	},
 	{
-		"hrsh7th/cmp-nvim-lsp",
-		event = { "BufReadPre", "BufNewFile" },
-		dependencies = {
-			{ "antosha417/nvim-lsp-file-operations", config = true },
-			{ "folke/lazydev.nvim", opts = {} },
+		"mason-org/mason.nvim",
+		opts = {
+			ensure_installed = {
+				-- LSP servers (matching your vim.lsp.enable() config)
+				"lua-language-server", -- Lua LSP
+				"gopls",           -- Go LSP
+
+				-- Formatters (for conform.nvim and general use)
+				"stylua",
+				"goimports",
+				-- Note: gofmt comes with Go installation, not managed by Mason
+
+				"prettier",
+
+				-- Linters and diagnostics
+				"golangci-lint",
+				"eslint_d",
+				"luacheck", -- Lua linting
+			},
 		},
-		config = function()
-			-- import cmp-nvim-lsp plugin
-			local cmp_nvim_lsp = require("cmp_nvim_lsp")
+		config = function(_, opts)
+			-- PATH is handled by core.mason-path for consistency
+			require("mason").setup(opts)
+			-- Auto-install ensure_installed tools with better error handling
+			local mr = require("mason-registry")
+			local function ensure_installed()
+				for _, tool in ipairs(opts.ensure_installed) do
+					if mr.has_package(tool) then
+						local p = mr.get_package(tool)
+						if not p:is_installed() then
+							vim.notify("Mason: Installing " .. tool .. "...", vim.log.levels.INFO)
+							p:install():once("closed", function()
+								if p:is_installed() then
+									vim.notify("Mason: Successfully installed " .. tool, vim.log.levels.INFO)
+								else
+									vim.notify("Mason: Failed to install " .. tool, vim.log.levels.ERROR)
+								end
+							end)
+						end
+					else
+						vim.notify("Mason: Package '" .. tool .. "' not found", vim.log.levels.WARN)
+					end
+				end
+			end
 
-			-- used to enable autocompletion (assign to every lsp server config)
-			local capabilities = cmp_nvim_lsp.default_capabilities()
-
-			vim.lsp.config("*", {
-				capabilities = capabilities,
-			})
+			if mr.refresh then
+				mr.refresh(ensure_installed)
+			else
+				ensure_installed()
+			end
 		end,
 	},
 })
@@ -238,9 +237,6 @@ require("lazy").setup({
 --[[
 Additional Configuration
 --]]
-
--- Copilot
-vim.g.copilot_assume_mapped = true
 
 -- General keymaps
 vim.keymap.set("n", "<leader>.", "@:", { desc = "Repeat last command-line" })
@@ -305,4 +301,34 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			})
 		end
 	end,
+})
+
+vim.lsp.enable({
+	"gopls",
+	"lua-ls",
+})
+
+vim.diagnostic.config({
+	virtual_text = true,
+	underline = true,
+	update_in_insert = false,
+	severity_sort = true,
+	float = {
+		border = "rounded",
+		source = true,
+		header = "",
+		prefix = "",
+	},
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = "󰅚 ",
+			[vim.diagnostic.severity.WARN] = "󰀪 ",
+			[vim.diagnostic.severity.INFO] = "󰋽 ",
+			[vim.diagnostic.severity.HINT] = "󰌶 ",
+		},
+		numhl = {
+			[vim.diagnostic.severity.ERROR] = "ErrorMsg",
+			[vim.diagnostic.severity.WARN] = "WarningMsg",
+		},
+	},
 })
