@@ -1,5 +1,5 @@
 --[[
-Basics - Set these BEFORE loading plugins
+Basics
 --]]
 vim.o.swapfile = false
 vim.o.autoread = true
@@ -10,6 +10,10 @@ vim.o.termguicolors = true
 vim.o.tabstop = 2
 vim.o.shiftwidth = 2
 vim.o.expandtab = true
+vim.o.smartindent = true
+vim.o.wrap = false
+vim.o.scrolloff = 8
+vim.o.sidescrolloff = 8
 
 --[[
 Lazy.nvim Bootstrap
@@ -68,9 +72,7 @@ require("lazy").setup({
 		end,
 	},
 
-	-- Prettier
-	"prettier/vim-prettier",
-
+	-- Formatting
 	{
 		"stevearc/conform.nvim",
 		config = function()
@@ -119,7 +121,7 @@ require("lazy").setup({
 		end,
 	},
 
-	-- Oil
+	-- File explorer
 	{
 		"stevearc/oil.nvim",
 		config = function()
@@ -132,7 +134,7 @@ require("lazy").setup({
 		end,
 	},
 
-	-- FZF-Lua
+	-- Fuzzyfinder
 	{
 		"ibhagwan/fzf-lua",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -143,6 +145,8 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>fg", fzf.live_grep, {})
 		end,
 	},
+
+	-- Completions
 	{
 		"saghen/blink.cmp",
 		dependencies = { "rafamadriz/friendly-snippets" },
@@ -150,7 +154,9 @@ require("lazy").setup({
 
 		opts = {
 			signature = { enabled = true },
-			keymap = { preset = "default" },
+			keymap = {
+				preset = "default",
+			},
 
 			appearance = {
 				-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
@@ -179,13 +185,18 @@ require("lazy").setup({
 		},
 		opts_extend = { "sources.default" },
 	},
+
+	-- Package manager
 	{
 		"mason-org/mason.nvim",
 		opts = {
 			ensure_installed = {
+				-- ai
+				"copilot-language-server",
+
 				-- LSP servers (matching your vim.lsp.enable() config)
 				"lua-language-server", -- Lua LSP
-				"gopls",           -- Go LSP
+				"gopls", -- Go LSP
 
 				-- Formatters (for conform.nvim and general use)
 				"stylua",
@@ -232,6 +243,103 @@ require("lazy").setup({
 			end
 		end,
 	},
+
+	-- AI
+	{
+		"folke/sidekick.nvim",
+		opts = {
+			-- add any options here
+			cli = {
+				mux = {
+					backend = "zellij",
+					enabled = false,
+				},
+			},
+		},
+		keys = {
+			{
+				"<tab>",
+				function()
+					-- if there is a next edit, jump to it, otherwise apply it if any
+					if not require("sidekick").nes_jump_or_apply() then
+						return "<Tab>" -- fallback to normal tab
+					end
+				end,
+				expr = true,
+				desc = "Goto/Apply Next Edit Suggestion",
+			},
+			{
+				"<c-.>",
+				function()
+					require("sidekick.cli").toggle()
+				end,
+				desc = "Sidekick Toggle",
+				mode = { "n", "t", "i", "x" },
+			},
+			{
+				"<leader>aa",
+				function()
+					require("sidekick.cli").toggle()
+				end,
+				desc = "Sidekick Toggle CLI",
+			},
+			{
+				"<leader>as",
+				function()
+					require("sidekick.cli").select()
+				end,
+				-- Or to select only installed tools:
+				-- require("sidekick.cli").select({ filter = { installed = true } })
+				desc = "Select CLI",
+			},
+			{
+				"<leader>ad",
+				function()
+					require("sidekick.cli").close()
+				end,
+				desc = "Detach a CLI Session",
+			},
+			{
+				"<leader>at",
+				function()
+					require("sidekick.cli").send({ msg = "{this}" })
+				end,
+				mode = { "x", "n" },
+				desc = "Send This",
+			},
+			{
+				"<leader>af",
+				function()
+					require("sidekick.cli").send({ msg = "{file}" })
+				end,
+				desc = "Send File",
+			},
+			{
+				"<leader>av",
+				function()
+					require("sidekick.cli").send({ msg = "{selection}" })
+				end,
+				mode = { "x" },
+				desc = "Send Visual Selection",
+			},
+			{
+				"<leader>ap",
+				function()
+					require("sidekick.cli").prompt()
+				end,
+				mode = { "n", "x" },
+				desc = "Sidekick Select Prompt",
+			},
+			-- Example of a keybinding to open Claude directly
+			{
+				"<leader>ac",
+				function()
+					require("sidekick.cli").toggle({ name = "claude", focus = true })
+				end,
+				desc = "Sidekick Toggle Claude",
+			},
+		},
+	},
 })
 
 --[[
@@ -240,7 +348,6 @@ Additional Configuration
 
 -- General keymaps
 vim.keymap.set("n", "<leader>.", "@:", { desc = "Repeat last command-line" })
-
 vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, {})
 vim.keymap.set("n", "<leader>lr", ":LspRestart<cr>", {})
 
@@ -255,7 +362,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 	callback = function(ev)
 		local bufnr = ev.buf
-		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 
 		-- Helper: buffer-local keymap
 		local map = function(mode, keys, func, desc)
@@ -291,21 +397,28 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 		end, "List Workspace Folders")
 
-		-- Optional: Format on save (if server supports)
-		if client.supports_method("textDocument/formatting") then
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				buffer = bufnr,
-				callback = function()
-					vim.lsp.buf.format({ bufnr = bufnr, async = false })
-				end,
-			})
-		end
+		vim.lsp.inline_completion.enable(true)
+
+		vim.keymap.set({ "i", "n" }, "<C-l>", function()
+			vim.lsp.inline_completion.get()
+		end, {
+			desc = "Get the current inline completion",
+		})
+
+		vim.keymap.set("i", "<C-n>", function()
+			vim.lsp.inline_completion.select()
+		end)
+
+		vim.keymap.set("i", "<C-p>", function()
+			vim.lsp.inline_completion.select({ count = -1 })
+		end)
 	end,
 })
 
 vim.lsp.enable({
 	"gopls",
 	"lua-ls",
+	"copilot",
 })
 
 vim.diagnostic.config({
