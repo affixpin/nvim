@@ -60,6 +60,8 @@ vim.lsp.enable({
 	"gopls",
 	"lua-ls",
 	"copilot",
+	"remark",
+	"ts",
 })
 
 vim.diagnostic.config({

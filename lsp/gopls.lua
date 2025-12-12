@@ -30,16 +30,16 @@ return {
 				-- Then edit this file and save, LSP will restart with new settings
 
 				-- Essential analyzers for catching common issues
-				nilness = true,  -- Check for nil pointer dereferences
+				nilness = true, -- Check for nil pointer dereferences
 				unusedparams = true, -- Find unused function parameters
 				unusedwrite = true, -- Find unused writes to variables
-				useany = true,   -- Suggest using 'any' instead of 'interface{}'
+				useany = true, -- Suggest using 'any' instead of 'interface{}'
 				unreachable = true, -- Find unreachable code
 				unusedresult = true, -- Check for unused results of calls to certain functions
 
 				-- Helpful but not critical (enable as needed)
-				simplifyslice = true,    -- Simplify slice expressions
-				simplifyrange = true,    -- Simplify range loops
+				simplifyslice = true, -- Simplify slice expressions
+				simplifyrange = true, -- Simplify range loops
 				simplifycompositelit = true, -- Simplify composite literals
 
 				-- Performance-intensive analyzers (disabled for better performance)
@@ -102,7 +102,7 @@ return {
 			},
 			usePlaceholders = true,
 			completeUnimported = true,
-			staticcheck = true,
+			staticcheck = false,
 			directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
 			semanticTokens = false,
 		},
