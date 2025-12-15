@@ -56,11 +56,37 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
+-- DAML BLOCK
+pcall(vim.filetype.add, {
+	extension = { daml = "daml" },
+	pattern = { [".*%.daml"] = "daml" }, -- matches buffer names like "...foo.daml"
+})
+
+-- 1) Tree-sitter: treat DAML as Haskell (for better highlight coverage)
+if vim.treesitter and vim.treesitter.language and vim.treesitter.language.register then
+	pcall(vim.treesitter.language.register, "haskell", "daml")
+end
+
+-- 2) Optional: keep Haskell indentation for DAML buffers
+vim.api.nvim_create_autocmd("FileType", {
+	group = vim.api.nvim_create_augroup("daml_nvim_indent", { clear = true }),
+	pattern = "daml",
+	callback = function()
+		-- Only set if function exists to avoid errors when haskell indent isn't present
+		if vim.fn.exists("*GetHaskellIndent") == 1 then
+			vim.bo.indentexpr = "GetHaskellIndent()"
+			vim.b.did_indent = 1
+		end
+	end,
+})
+-- DAML BLOCK
+
 vim.lsp.enable({
 	"gopls",
 	"lua-ls",
 	"copilot",
 	"remark",
+	"daml",
 	"ts",
 })
 
