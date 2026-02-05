@@ -27,9 +27,21 @@ return {
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			local fzf = require("fzf-lua")
-			vim.keymap.set("n", "<leader>ff", fzf.files, {})
+			vim.keymap.set("n", "<leader>ff", fzf.git_files, {})
 			vim.keymap.set("n", "<leader>fr", fzf.resume, {})
 			vim.keymap.set("n", "<leader>fg", fzf.live_grep, {})
 		end,
+	},
+	{
+		"swaits/zellij-nav.nvim",
+		lazy = true,
+		event = "VeryLazy",
+		keys = {
+			{ "<A-h>", "<cmd>ZellijNavigateLeft<cr>", { silent = true, desc = "navigate left" } },
+			{ "<A-j>", "<cmd>ZellijNavigateDown<cr>", { silent = true, desc = "navigate down" } },
+			{ "<A-k>", "<cmd>ZellijNavigateUp<cr>", { silent = true, desc = "navigate up" } },
+			{ "<A-l>", "<cmd>ZellijNavigateRight<cr>", { silent = true, desc = "navigate right" } },
+		},
+		opts = {},
 	},
 }
