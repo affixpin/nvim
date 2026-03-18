@@ -8,6 +8,7 @@ return {
 			-- LSP servers (matching your vim.lsp.enable() config)
 			"lua-language-server", -- Lua LSP
 			"gopls", -- Go LSP
+			"rust-analyzer", -- Rust LSP
 
 			-- Formatters (for conform.nvim and general use)
 			"stylua",

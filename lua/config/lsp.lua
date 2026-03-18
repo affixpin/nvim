@@ -88,6 +88,7 @@ vim.lsp.enable({
 	"remark",
 	"daml",
 	"ts",
+	"rust-analyzer",
 })
 
 vim.diagnostic.config({
