@@ -27,6 +27,13 @@ return {
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			local fzf = require("fzf-lua")
+			fzf.setup({
+				defaults = {
+					actions = {
+						["alt-i"] = false,
+					},
+				},
+			})
 			vim.keymap.set("n", "<leader>ff", fzf.git_files, {})
 			vim.keymap.set("n", "<leader>fr", fzf.resume, {})
 			vim.keymap.set("n", "<leader>fg", fzf.live_grep, {})

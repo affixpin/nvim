@@ -7,6 +7,12 @@ vim.keymap.set("n", "<leader>cp", function()
   vim.notify(path, vim.log.levels.INFO, { title = "Path copied" })
 end, { desc = "Copy absolute file path" })
 
+vim.keymap.set("n", "<leader>cl", function()
+  local location = vim.fn.expand("%:.") .. ":" .. vim.fn.line(".")
+  vim.fn.setreg("+", location)
+  vim.notify(location, vim.log.levels.INFO, { title = "Location copied" })
+end, { desc = "Copy file path and line number" })
+
 vim.api.nvim_create_user_command("LspInfo", function()
   local clients = vim.lsp.get_clients({ bufnr = 0 })
   if #clients == 0 then
@@ -16,6 +22,12 @@ vim.api.nvim_create_user_command("LspInfo", function()
   local names = vim.tbl_map(function(c) return c.name end, clients)
   vim.notify(table.concat(names, ", "), vim.log.levels.INFO)
 end, { desc = "Show attached LSP clients" })
+
+vim.api.nvim_create_user_command("LspRestart", function()
+  vim.lsp.stop_client(vim.lsp.get_clients())
+  vim.cmd("edit")
+  vim.notify("LSP restarted", vim.log.levels.INFO)
+end, { desc = "Restart all LSP clients" })
 
 vim.api.nvim_create_user_command("Reload", function()
   vim.cmd("source ~/.config/nvim/init.lua")
